@@ -58,18 +58,11 @@ public class Game extends Pane {
             buttons.get(index).setOnAction(event -> {
 
                 if(!gameOver) {
-                    if (isEmpty[index]) {
-                        buttons.get(index).setText("X");
-                        emptyCellCount--;
-                        isEmpty[index] = false;
-                        System.out.println("player" + emptyCellCount);
-                        checkGameOver(buttons);
-                    }
+                    // Ход пользователя
+                    moveUser(isEmpty, buttons, index);
 
                     //ход пк
                     moveAI(isEmpty, buttons);
-                } else {
-                    System.out.println("Game Over");
                 }
             });
         }
@@ -79,8 +72,24 @@ public class Game extends Pane {
         }
     }
 
+    /* Ход игрока */
+    public void moveUser(boolean[] isEmpty, ArrayList<Button> buttons, int index){
+        checkGameOver(buttons);
+        if (!gameOver) {
+            if (isEmpty[index]) {
+                buttons.get(index).setText("X");
+                emptyCellCount--;
+                isEmpty[index] = false;
+                System.out.println("player" + emptyCellCount);
+            }
+        } else {
+            System.out.println("Конец игры! Вы проиграли!");
+        }
+    }
+
     /* Ход компьютера */
-    public static void moveAI(boolean[] isEmpty, ArrayList<Button> buttons) {
+    public void moveAI(boolean[] isEmpty, ArrayList<Button> buttons) {
+        checkGameOver(buttons);
         if (!gameOver) {
             int randomNumber = (int) (Math.random() * 8); // Присвоить пременной случайное число от 0 до 8. Это индексы ячеек игрового поля.
 
@@ -90,9 +99,10 @@ public class Game extends Pane {
                 isEmpty[randomNumber] = false;
                 System.out.println("bot" + emptyCellCount);
                 checkGameOver(buttons);
+                if (gameOver) System.out.println("Конец игры! Вы проиграли!");
             } else moveAI(isEmpty, buttons); // Иначе сново запустить ход компьютера
         } else {
-            System.out.println("Game Over");
+            System.out.println("Конец игры! Вы выиграли!");
         }
     } // конец метода moveAI()
 
