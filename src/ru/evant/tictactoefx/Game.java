@@ -1,7 +1,9 @@
 package ru.evant.tictactoefx;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -10,7 +12,7 @@ import java.util.Arrays;
 
 public class Game extends Pane {
 
-    GridPane root;
+    private final GridPane root;
 
     private final boolean[] isEmpty = new boolean[9];
 
@@ -19,7 +21,10 @@ public class Game extends Pane {
     }
 
     static int emptyCellCount = 9;
-    static boolean gameOver = false;
+    public static boolean gameOver = false;
+
+    private final String textWin = "Конец игры! Вы выиграли!";
+    private final String textLos = "Конец игры! Вы проиграли!";
 
     private final ArrayList<Button> buttons = new ArrayList<>();
 
@@ -68,7 +73,7 @@ public class Game extends Pane {
         }
 
         for (Button b : buttons) {
-            root.getChildren().add(b); // добавить текстово поле в таблицу
+            root.getChildren().add(b); // добавить кнопки поле в таблицу
         }
     }
 
@@ -80,12 +85,13 @@ public class Game extends Pane {
                 buttons.get(index).setText("X");
                 emptyCellCount--;
                 isEmpty[index] = false;
-                System.out.println("player" + emptyCellCount);
             }
         } else {
-            System.out.println("Конец игры! Вы проиграли!");
+            System.out.println(textLos);
+            buttonsVisible(buttons);
+            createLabel(textLos);
         }
-    }
+    } // Конец метода moveUser()
 
     /* Ход компьютера */
     public void moveAI(boolean[] isEmpty, ArrayList<Button> buttons) {
@@ -97,12 +103,18 @@ public class Game extends Pane {
                 buttons.get(randomNumber).setText("O");
                 emptyCellCount--;
                 isEmpty[randomNumber] = false;
-                System.out.println("bot" + emptyCellCount);
                 checkGameOver(buttons);
-                if (gameOver) System.out.println("Конец игры! Вы проиграли!");
+
+                if (gameOver) {
+                    System.out.println(textLos);
+                    buttonsVisible(buttons);
+                    createLabel(textLos);
+                }
             } else moveAI(isEmpty, buttons); // Иначе сново запустить ход компьютера
         } else {
-            System.out.println("Конец игры! Вы выиграли!");
+            System.out.println(textWin);
+            buttonsVisible(buttons);
+            createLabel(textWin);
         }
     } // конец метода moveAI()
 
@@ -156,4 +168,25 @@ public class Game extends Pane {
         return root;
     } // Конец метода getRoot()
 
+
+    /* Сделать кнопки не видимыми */
+    private void buttonsVisible(ArrayList<Button> buttons){
+        for (Button b:buttons) {
+            b.setVisible(false);
+        }
+    }
+
+    /* Создать текстовое поле */
+    // открыть новоеокно с текстом и кнопкой, начать новую игру !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private void createLabel(String text){
+        Label label = new Label(text);
+        label.setAlignment(Pos.CENTER);
+        label.setTranslateX(70);
+        label.setPrefWidth(200);
+        root.getChildren().add(label);
+
+        label.setOnMouseClicked(event -> {
+
+        });
+    }
 }
