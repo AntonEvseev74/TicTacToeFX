@@ -1,5 +1,6 @@
 package ru.evant.tictactoefx;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -7,7 +8,9 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Map extends Pane {
+public class Game extends Pane {
+
+    GridPane root;
 
     private final boolean[] isEmpty = new boolean[9];
 
@@ -20,7 +23,12 @@ public class Map extends Pane {
 
     private final ArrayList<Button> buttons = new ArrayList<>();
 
-    public Map(GridPane pane) {
+    public Game() {
+        root = new GridPane();
+        root.setPadding(new Insets(10, 10, 10, 10)); // отступы
+        root.setHgap(5); // горизонтальные отступы между строками
+        root.setVgap(5); // вертикальные отступы между столбцами
+
         // Создать кнопки
         for (int i = 0; i < 9; i++) {
             Button btn = new Button();
@@ -67,14 +75,12 @@ public class Map extends Pane {
         }
 
         for (Button b : buttons) {
-            pane.getChildren().add(b); // добавить текстово поле в таблицу
+            root.getChildren().add(b); // добавить текстово поле в таблицу
         }
     }
 
     /* Ход компьютера */
     public static void moveAI(boolean[] isEmpty, ArrayList<Button> buttons) {
-        //checkGameOver(buttons);
-
         if (!gameOver) {
             int randomNumber = (int) (Math.random() * 8); // Присвоить пременной случайное число от 0 до 8. Это индексы ячеек игрового поля.
 
@@ -134,4 +140,10 @@ public class Map extends Pane {
         if (buttons.get(2).getText().equals("O") && buttons.get(4).getText().equals("O") && buttons.get(6).getText().equals("O"))
             gameOver = true;
     } // конец метода checkGameOver()
+
+    /* Возвращает контейнер типа GridPane */
+    public GridPane getRoot(){
+        return root;
+    } // Конец метода getRoot()
+
 }
