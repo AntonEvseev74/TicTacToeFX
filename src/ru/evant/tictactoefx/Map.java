@@ -5,39 +5,35 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Map extends Pane {
 
-    private int column = 0;
-    private int row = 0;
-
-    private boolean[] isEmpty = new boolean[9];
+    private final boolean[] isEmpty = new boolean[9];
 
     {
-        for (int i = 0; i < isEmpty.length; i++) {
-            isEmpty[i] = true;
-        }
+        Arrays.fill(isEmpty, true);
     }
 
     static int emptyCellCount = 9;
     static boolean gameOver = false;
 
-    private Button btn;
-    private ArrayList<Button> buttons = new ArrayList<>();
+    private final ArrayList<Button> buttons = new ArrayList<>();
 
     public Map(GridPane pane) {
         // Создать кнопки
         for (int i = 0; i < 9; i++) {
-            btn = new Button();
+            Button btn = new Button();
             btn.setPrefWidth(100);
             btn.setPrefHeight(100);
             buttons.add(btn);
         }
 
         for (int i = 0; i < buttons.size(); i++) {
-            if (i >= 0 && i <= 2) {
+            int column = 0;
+            int row = 0;
+            if (i <= 2) {
                 column = i;
-                row = 0;
             }
             if (i >= 3 && i <= 5) {
                 column = i - 3;
