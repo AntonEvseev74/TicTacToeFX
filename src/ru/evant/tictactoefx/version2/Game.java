@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+//import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -18,13 +18,7 @@ import java.util.Optional;
 
 public class Game extends Pane {
 
-    private final GridPane root;
-
-    private final boolean[] isEmpty = new boolean[9];
-
-    {
-        Arrays.fill(isEmpty, true);
-    }
+    private GridPane root;
 
     static int emptyCellCount = 9;
     public static boolean gameOver = false;
@@ -33,17 +27,16 @@ public class Game extends Pane {
     private final String textLos = "Конец игры! Вы проиграли!";
     public final String X = " X ";   // Крестик
     public final String O = " O ";   // Нолик
-    private final String[] gameField = new String[9]; // Создать массив длинной 9. Это 9 ячеек для поля 3 на 3 ячейки.
 
+    private final String[] gameField = new String[9]; // Создать массив длинной 9. Это 9 ячеек для поля 3 на 3 ячейки.
+    private final boolean[] isEmpty = new boolean[9];
     {
-        for (int i = 0; i < gameField.length; i++) {
-            gameField[i] = ""; // Заполнить массив начальными символами, обозначающими свободную ячейку.
-        }
+        Arrays.fill(isEmpty, true);
+        Arrays.fill(gameField, "");
     }
 
     private final ArrayList<Button> buttons = new ArrayList<>();
 
-    //private int index;
 
     private Image[] imagesX;
 
@@ -73,7 +66,7 @@ public class Game extends Pane {
 
     int countImgX = 4;
     int countImgO = 4;
-    private ImageView[] imgX = new ImageView[5];//(imageX);
+    private final ImageView[] imgX = new ImageView[5];//(imageX);
 
     {
         for (int i = 0; i < imgX.length; i++) {
@@ -83,7 +76,7 @@ public class Game extends Pane {
         }
     }
 
-    private ImageView[] imgO = new ImageView[5];//(imageO);
+    private final ImageView[] imgO = new ImageView[5];//(imageO);
 
     {
         for (int i = 0; i < imgO.length; i++) {
@@ -94,19 +87,25 @@ public class Game extends Pane {
     }
 
     public Game() {
-        root = new GridPane();
-        root.setPadding(new Insets(10, 10, 10, 10)); // отступы
-        root.setHgap(5); // горизонтальные отступы между строками
-        root.setVgap(5); // вертикальные отступы между столбцами
+        start();
+    }
 
-        // Создать кнопки
+    public void start(){
+        newRoot();
+        createButtons();
+        gameMove();
+        setButtons();
+    }
+
+    public void createButtons(){
         for (int i = 0; i < 9; i++) {
             Button btn = new Button();
             btn.setPrefWidth(100);
             btn.setPrefHeight(100);
             buttons.add(btn);
         }
-
+    }
+    public void gameMove(){
         for (int i = 0; i < buttons.size(); i++) {
             int column = 0;
             int row = 0;
@@ -136,10 +135,19 @@ public class Game extends Pane {
                 }
             });
         }
+    }
 
+    public void setButtons(){
         for (Button b : buttons) {
             root.getChildren().add(b); // добавить кнопки поле в таблицу
         }
+    }
+
+    public void newRoot(){
+        root = new GridPane();
+        root.setPadding(new Insets(10, 10, 10, 10)); // отступы
+        root.setHgap(5); // горизонтальные отступы между строками
+        root.setVgap(5); // вертикальные отступы между столбцами
     }
 
     /* Ход игрока */
@@ -155,7 +163,6 @@ public class Game extends Pane {
             }
         } else {
             System.out.println(textLos);
-            //createLabel(textLos);
             showAlert(textLos);
         }
     } // Конец метода moveUser()
@@ -176,13 +183,11 @@ public class Game extends Pane {
 
                 if (gameOver) {
                     System.out.println(textLos);
-                    //createLabel(textLos);
                     showAlert(textLos);
                 }
             } else moveAI(); // Иначе сново запустить ход компьютера
         } else {
             System.out.println(textWin);
-            //createLabel(textWin);
             showAlert(textWin);
         }
     } // конец метода moveAI()
@@ -224,8 +229,6 @@ public class Game extends Pane {
     } // Конец метода getRoot()
 
 
-    private Label label;
-
     private void showAlert(String text) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -233,19 +236,22 @@ public class Game extends Pane {
         alert.setHeaderText(text);
         alert.setContentText("Начать сначала?");
 
-        // option != null.
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == null) {
-            //this.label.setText("No selection!");
+
         } else if (option.get() == ButtonType.OK) {
-            //this.label.setText("File deleted!");
-            Main.launch();
+
+            Main.startGame();
         } else if (option.get() == ButtonType.CANCEL) {
-            //this.label.setText("Cancelled!");
+
         } else {
-            //this.label.setText("-");
+
         }
+    }
+
+    public void newGame(){
+        start();
     }
 
 }

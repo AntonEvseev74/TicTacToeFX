@@ -8,17 +8,22 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-
+static Stage primaryStage;
     @Override
     public void start(Stage primaryStage) throws Exception {
+       this.primaryStage = primaryStage;
+        startGame();
 
-        Game game = new Game();
+    }
 
-        Scene scene = new Scene(game.getRoot(), 330, 330);
+    public static void startGame(){
         primaryStage.setTitle("КрестикиНолики");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(new Game().getRoot(), 330, 330));
         primaryStage.show();
+    }
+
+    public static Stage get(){
+        return primaryStage;
     }
 
     public static void main(String[] args) {
