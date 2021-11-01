@@ -1,10 +1,14 @@
-package ru.evant.tictactoefx;
+package ru.evant.tictactoefx.version2;
+
+// Проблемы:
+// Реализовать цикл игры, чтобы была возможность начать игру сначала
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {

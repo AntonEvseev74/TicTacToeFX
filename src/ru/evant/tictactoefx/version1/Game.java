@@ -1,4 +1,4 @@
-package ru.evant.tictactoefx;
+package ru.evant.tictactoefx.version1;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
