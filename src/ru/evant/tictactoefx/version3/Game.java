@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,6 +19,7 @@ import java.util.Optional;
 
 public class Game extends Pane {
 
+    private Pane rootMain;
     private GridPane root;
 
     static int emptyCellCount = 9;
@@ -90,12 +93,13 @@ public class Game extends Pane {
     }
 
     /* Возвращает контейнер типа GridPane */
-    public GridPane getRoot() {
-        return root;
+    public Pane getRoot() {
+        return rootMain;
     } // Конец метода getRoot()
 
     /* Начать игру. Рисует игровое поле и ходы игроков. */
     private void start() {
+        newMainRoot();
         newRoot();
         createButtons();
         gameMove();
@@ -130,11 +134,19 @@ public class Game extends Pane {
     } // Конец метода gameMove()
 
     /* Создать контейнер для игрового поля из 9ти кнопок */
+    private void newMainRoot() {
+        rootMain = new Pane();
+        rootMain.setPadding(new Insets(10, 10, 10, 10)); // отступы
+    } // Конец метода newRoot()
+
+    /* Создать контейнер для игрового поля из 9ти кнопок */
     private void newRoot() {
         root = new GridPane();
         root.setPadding(new Insets(10, 10, 10, 10)); // отступы
         root.setHgap(5); // горизонтальные отступы между строками
         root.setVgap(5); // вертикальные отступы между столбцами
+
+        rootMain.getChildren().add(root);
     } // Конец метода newRoot()
 
     /* Установить кнопки в контейнер игрового поля */
@@ -235,6 +247,10 @@ public class Game extends Pane {
     private void gameOver(String text) {
         gameOver = true;
         gameState = text;
+
+        //нарисовать линию (зачеркнуть поля)
+        Rectangle rect = new Rectangle(250, 10, Color.RED);
+        rootMain.getChildren().add(rect);
     }
 
     /* Создать окно с сообщением о победе/проигрыше и предложении начать новую игру */

@@ -14,20 +14,35 @@ package ru.evant.tictactoefx.version3;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 
+import java.nio.file.Paths;
+
 public class Main extends Application {
+    MediaPlayer mediaPlayer;
 static Stage primaryStage;
     @Override
     public void start(Stage primaryStage) {
+        playMusic();
        Main.primaryStage = primaryStage;
         startGame();
     }
 
     public static void startGame(){
         primaryStage.setTitle("КрестикиНолики");
+        primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(new Game().getRoot(), 330, 330));
         primaryStage.show();
+    }
+
+    public void playMusic(){
+        String path = "assets/music.mp3";
+        Media music = new Media(Paths.get(path).toUri().toString());
+        mediaPlayer = new MediaPlayer(music);
+        mediaPlayer.play();
     }
 
     public static void main(String[] args) {
