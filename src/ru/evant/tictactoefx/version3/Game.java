@@ -8,8 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Line;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -216,41 +215,47 @@ public class Game extends Pane {
 
     /* Проверка выигрышных комбинаций, три в ряд */
     private void checkGameOver() {
-        if (emptyCellCount == 0) gameOver(draw);
+        if (emptyCellCount == 0) gameOver(draw, 0);
 
-        if (gameField[0].equals(X) && gameField[1].equals(X) && gameField[2].equals(X)) gameOver(wins);
-        if (gameField[0].equals(O) && gameField[1].equals(O) && gameField[2].equals(O)) gameOver(loss);
+        if (gameField[0].equals(X) && gameField[1].equals(X) && gameField[2].equals(X)) gameOver(wins,1);
+        if (gameField[0].equals(O) && gameField[1].equals(O) && gameField[2].equals(O)) gameOver(loss,1);
 
-        if (gameField[3].equals(X) && gameField[4].equals(X) && gameField[5].equals(X)) gameOver(wins);
-        if (gameField[3].equals(O) && gameField[4].equals(O) && gameField[5].equals(O)) gameOver(loss);
+        if (gameField[3].equals(X) && gameField[4].equals(X) && gameField[5].equals(X)) gameOver(wins,2);
+        if (gameField[3].equals(O) && gameField[4].equals(O) && gameField[5].equals(O)) gameOver(loss,2);
 
-        if (gameField[6].equals(X) && gameField[7].equals(X) && gameField[8].equals(X)) gameOver(wins);
-        if (gameField[6].equals(O) && gameField[7].equals(O) && gameField[8].equals(O)) gameOver(loss);
+        if (gameField[6].equals(X) && gameField[7].equals(X) && gameField[8].equals(X)) gameOver(wins,3);
+        if (gameField[6].equals(O) && gameField[7].equals(O) && gameField[8].equals(O)) gameOver(loss,3);
 
-        if (gameField[0].equals(X) && gameField[3].equals(X) && gameField[6].equals(X)) gameOver(wins);
-        if (gameField[0].equals(O) && gameField[3].equals(O) && gameField[6].equals(O)) gameOver(loss);
+        if (gameField[0].equals(X) && gameField[3].equals(X) && gameField[6].equals(X)) gameOver(wins,4);
+        if (gameField[0].equals(O) && gameField[3].equals(O) && gameField[6].equals(O)) gameOver(loss,4);
 
-        if (gameField[1].equals(X) && gameField[4].equals(X) && gameField[7].equals(X)) gameOver(wins);
-        if (gameField[1].equals(O) && gameField[4].equals(O) && gameField[7].equals(O)) gameOver(loss);
+        if (gameField[1].equals(X) && gameField[4].equals(X) && gameField[7].equals(X)) gameOver(wins,5);
+        if (gameField[1].equals(O) && gameField[4].equals(O) && gameField[7].equals(O)) gameOver(loss,5);
 
-        if (gameField[2].equals(X) && gameField[5].equals(X) && gameField[8].equals(X)) gameOver(wins);
-        if (gameField[2].equals(O) && gameField[5].equals(O) && gameField[8].equals(O)) gameOver(loss);
+        if (gameField[2].equals(X) && gameField[5].equals(X) && gameField[8].equals(X)) gameOver(wins,6);
+        if (gameField[2].equals(O) && gameField[5].equals(O) && gameField[8].equals(O)) gameOver(loss,6);
 
-        if (gameField[0].equals(X) && gameField[4].equals(X) && gameField[8].equals(X)) gameOver(wins);
-        if (gameField[0].equals(O) && gameField[4].equals(O) && gameField[8].equals(O)) gameOver(loss);
+        if (gameField[0].equals(X) && gameField[4].equals(X) && gameField[8].equals(X)) gameOver(wins,7);
+        if (gameField[0].equals(O) && gameField[4].equals(O) && gameField[8].equals(O)) gameOver(loss,7);
 
-        if (gameField[2].equals(X) && gameField[4].equals(X) && gameField[6].equals(X)) gameOver(wins);
-        if (gameField[2].equals(O) && gameField[4].equals(O) && gameField[6].equals(O)) gameOver(loss);
+        if (gameField[2].equals(X) && gameField[4].equals(X) && gameField[6].equals(X)) gameOver(wins,8);
+        if (gameField[2].equals(O) && gameField[4].equals(O) && gameField[6].equals(O)) gameOver(loss,8);
     } // конец метода checkGameOver()
 
     /* Установить конец игры и текст */
-    private void gameOver(String text) {
+    private void gameOver(String text, int indexLine) {
         gameOver = true;
         gameState = text;
 
         //нарисовать линию (зачеркнуть поля)
-        Rectangle rect = new Rectangle(250, 10, Color.RED);
-        rootMain.getChildren().add(rect);
+        drawWinLine(indexLine);
+    }
+
+    /* Зачеркнуть выигрышную комбинацию */
+    private void drawWinLine(int indexLine){
+        WinLine wl = new WinLine(indexLine);
+        Line line = wl.get();
+        rootMain.getChildren().add(line);
     }
 
     /* Создать окно с сообщением о победе/проигрыше и предложении начать новую игру */
