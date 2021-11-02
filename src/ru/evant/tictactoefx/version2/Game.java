@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-//import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -30,6 +29,7 @@ public class Game extends Pane {
 
     private final String[] gameField = new String[9]; // Создать массив длинной 9. Это 9 ячеек для поля 3 на 3 ячейки.
     private final boolean[] isEmpty = new boolean[9];
+
     {
         Arrays.fill(isEmpty, true);
         Arrays.fill(gameField, "");
@@ -90,14 +90,14 @@ public class Game extends Pane {
         start();
     }
 
-    public void start(){
+    public void start() {
         newRoot();
         createButtons();
         gameMove();
         setButtons();
     }
 
-    public void createButtons(){
+    public void createButtons() {
         for (int i = 0; i < 9; i++) {
             Button btn = new Button();
             btn.setPrefWidth(100);
@@ -105,7 +105,8 @@ public class Game extends Pane {
             buttons.add(btn);
         }
     }
-    public void gameMove(){
+
+    public void gameMove() {
         for (int i = 0; i < buttons.size(); i++) {
             int column = 0;
             int row = 0;
@@ -137,13 +138,13 @@ public class Game extends Pane {
         }
     }
 
-    public void setButtons(){
+    public void setButtons() {
         for (Button b : buttons) {
             root.getChildren().add(b); // добавить кнопки поле в таблицу
         }
     }
 
-    public void newRoot(){
+    public void newRoot() {
         root = new GridPane();
         root.setPadding(new Insets(10, 10, 10, 10)); // отступы
         root.setHgap(5); // горизонтальные отступы между строками
@@ -239,19 +240,23 @@ public class Game extends Pane {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == null) {
-
+            //
         } else if (option.get() == ButtonType.OK) {
-
-            Main.startGame();
+            startNewGame();
         } else if (option.get() == ButtonType.CANCEL) {
-
+            alert.close();
         } else {
-
+            //
         }
     }
 
-    public void newGame(){
-        start();
+    /* Начать новую игру */
+    private void startNewGame() {
+        Arrays.fill(isEmpty, true);
+        Arrays.fill(gameField, "");
+        gameOver = false;
+        emptyCellCount = gameField.length;
+        Main.startGame();
     }
 
 }
