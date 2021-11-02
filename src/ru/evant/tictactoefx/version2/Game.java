@@ -238,16 +238,9 @@ public class Game extends Pane {
         alert.setContentText("Начать сначала?");
 
         Optional<ButtonType> option = alert.showAndWait();
+        if (option.get() == ButtonType.OK) startNewGame(); // Начать игру сначала
+        if (option.get() == ButtonType.CANCEL) alert.close(); // Закрыть алерт
 
-        if (option.get() == null) {
-            //
-        } else if (option.get() == ButtonType.OK) {
-            startNewGame();
-        } else if (option.get() == ButtonType.CANCEL) {
-            alert.close();
-        } else {
-            //
-        }
     }
 
     /* Начать новую игру */

@@ -19,8 +19,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 static Stage primaryStage;
     @Override
-    public void start(Stage primaryStage) throws Exception {
-       this.primaryStage = primaryStage;
+    public void start(Stage primaryStage) {
+       Main.primaryStage = primaryStage;
         startGame();
 
     }
@@ -29,10 +29,6 @@ static Stage primaryStage;
         primaryStage.setTitle("КрестикиНолики");
         primaryStage.setScene(new Scene(new Game().getRoot(), 330, 330));
         primaryStage.show();
-    }
-
-    public static Stage get(){
-        return primaryStage;
     }
 
     public static void main(String[] args) {
