@@ -20,6 +20,7 @@ public class Game extends Pane {
 
     private Pane rootMain;
     private GridPane root;
+    private GameMusic music;
 
     static int emptyCellCount = 9;
     public static boolean gameOver = false;
@@ -98,6 +99,10 @@ public class Game extends Pane {
 
     /* Начать игру. Рисует игровое поле и ходы игроков. */
     private void start() {
+        String musicPath = "assets/music.mp3";
+        music = new GameMusic(musicPath);
+        music.play();
+
         newMainRoot();
         newRoot();
         createButtons();
@@ -267,7 +272,10 @@ public class Game extends Pane {
         alert.setContentText("Начать сначала?");
 
         Optional<ButtonType> option = alert.showAndWait();
-        if (option.get() == ButtonType.OK) startNewGame(); // Начать игру сначала
+        if (option.get() == ButtonType.OK) {
+            music.stop();
+            startNewGame(); // Начать игру сначала
+        }
         if (option.get() == ButtonType.CANCEL) closeGame(alert); // Закрыть программу
 
     } // Конец метода showAlert()
